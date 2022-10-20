@@ -95,7 +95,9 @@ class SpringTransactionManager(
     override fun newTransaction(isolation: Int, readOnly: Boolean, outerTransaction: Transaction?): Transaction {
         val tDefinition = DefaultTransactionDefinition().apply {
             isReadOnly = readOnly
-            isolationLevel = isolation
+            if (isolation != defaultIsolationLevel) {
+                isolationLevel = isolation
+            }
         }
 
         getTransaction(tDefinition)
